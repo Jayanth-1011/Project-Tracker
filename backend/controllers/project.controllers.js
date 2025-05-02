@@ -5,16 +5,22 @@ import Task from '../models/task.js';
 export const createProject = async (req, res) => {
   try {
     const { title, description } = req.body;
-    console.log(req.user._id)
+    const userId = req.user._id;
+
     if (!title) {
       return res.status(400).json({ error: "Title is required" });
+    }
+
+    // Count the number of projects by this user
+    const projectCount = await Project.countDocuments({ createdBy: userId });
+    if (projectCount >= 4) {
+      return res.status(400).json({ error: "You can only have up to 4 projects." });
     }
 
     const newProject = await Project.create({
       title,
       description,
-    
-      createdBy: req.user._id
+      createdBy: userId,
     });
 
     res.status(201).json(newProject);
@@ -22,6 +28,7 @@ export const createProject = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 // Get all projects for logged-in user
