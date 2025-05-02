@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     checkAuth();
-  });
+  },[]);
 
   return (
     <div data-theme="emerald">
