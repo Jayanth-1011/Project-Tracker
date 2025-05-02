@@ -8,9 +8,10 @@ import cors from "cors"
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://jay-projecttracker.netlify.app",
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRouter)
